@@ -24,13 +24,28 @@ expression_dt <- as.data.table( read.delim("expression.txt"))
 ### Expressions 
 First the expressions data is melted. The strain and environment values on the column names will be values under the columns 'Strain' and 'Medium', repectively.
 ```{r}
-exp_melted <- melt(expression_dt, id.vars=c(), measure.vars = colnames(expression_dt), variable.name = "Strain", value.name = "Value")
+exp_melted <- melt(expression_dt, 
+                   id.vars=c(), 
+                   measure.vars = colnames(expression_dt), 
+                   variable.name = "Strain", 
+                   value.name = "Value")
 
 exp_melted[,Medium := Strain]
 exp_melted[,Medium:=gsub(pattern = "\\..*$",replacement = "",x=Medium)]
 exp_melted[,Strain:=gsub(pattern = "^.*\\.",replacement = "",x=Strain)]
 setcolorder(exp_melted, c("Strain", "Medium", "Value"))
 head(exp_melted)
+```
+
+### Genotype
+
+```{r}
+genotype_melted <- melt(genotype_dt,
+                        id.vars = c("strain"), 
+                        measure.vars = setdiff(colnames(genotype_dt), c("strain")),
+                        variable.name = "Marker", value.name = "Source")
+
+head(genotype_melted)
 ```
 
 
