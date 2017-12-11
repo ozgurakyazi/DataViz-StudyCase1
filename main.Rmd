@@ -39,6 +39,8 @@ head(exp_melted)
 
 ### Genotype
 
+Genotype is melted so that the marker variables will not be in the columns but under the "Marker" column. And the values column is named as "Source", which indicates the source of the corresponding marker.
+
 ```{r}
 genotype_melted <- melt(genotype_dt,
                         id.vars = c("strain"), 
