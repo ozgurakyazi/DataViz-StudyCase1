@@ -1,0 +1,19 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+## Required Libraries
+```
+library(ggplot2)
+library(data.table)
+```
+
+Load the Data
+```{r}
+marker_dt <- as.data.table( read.delim("marker.txt"))
+growth_dt <- as.data.table( read.delim("growth.txt"))
+gene_dt <- as.data.table( read.delim("gene.txt"))
+genotype_dt <- as.data.table( read.delim("genotype.txt"))
+expression_dt <- as.data.table( read.delim("expression.txt"))
+```
