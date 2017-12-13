@@ -1,6 +1,8 @@
 ---
 title: "R Notebook"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 # Initializations
 ## 1.1 Required Libraries
@@ -9,6 +11,7 @@ library(ggplot2)
 library(data.table)
 options(warn=-1)
 ```
+
 
 ## 1.2 Load the Data
 ```{r}
@@ -48,6 +51,105 @@ genotype_melted <- melt(genotype_dt,
                         variable.name = "Marker", value.name = "Source")
 
 head(genotype_melted)
+```
+
+
+## Experimental graphing and summary extraction
+```{r}
+
+
+
+# boxplot(exp_melted$Value~exp_melted$Medium)
+# 
+# ggplot(exp_melted, aes(exp_melted$Medium, exp_melted$Value) ) +
+#   geom_point()
+
+ggplot(exp_melted,
+  aes(exp_melted$Medium, exp_melted$Value)) +
+  geom_point() + geom_boxplot()
+
+the.med <- unique(exp_melted$Medium) # SUMMARIES OF EACH STRAIN
+the.med
+med_summary <- list()
+for(med in the.med){
+  these <- exp_melted$Medium == med
+  med_summary[[med]] <- summary(exp_melted[these, ])
+}
+str(summary(med_summary))
+#med_summary
+
+# stats <- list()
+# for(iter in a){
+# 
+#   po <- as.matrix(iter)
+#   po
+#   vals <- length(po[, 3])
+# 
+#   for(val in vals){
+#     val
+#     c <- po[val, 3]
+#     d <- strsplit(c, ":")[[1]]
+#     stats[[d[1]]] <- as.double(d[2])
+#   }
+# 
+#   break()
+# }
+# length(stats)
+# names(a)[2]
+
+summ <- unclass(med_summary)
+ypd <- as.matrix(summ$YPD)
+ybs <- as.matrix(summ$YPD_BPS)
+yrp <- as.matrix(summ$YPD_Rapa)
+ype <- as.matrix(summ$YPE)
+ypm <- as.matrix(summ$YPMalt)
+vals <- c("min", "q1", "median", "mean", "q3", "max")
+func <- function(arg.mat){
+  l <- list()
+  for(i in 1:6){
+    c <- arg.mat[i, 3]
+    d <- strsplit(c, ":")[[1]]
+    l[vals[i]] <- as.double(d[2])
+  }
+  #return(c(m, sd)) ignore b/c no labels on outputs
+  #instead return a list.
+  return(l)
+}
+
+ypd <- func(ypd)
+ybs <- func(ybs)
+yrp <- func(yrp)
+ype <- func(ype)
+ypm <- func(ypm)
+ypd
+ybs
+yrp
+ype
+ypm
+
+# imp.stats <- function(arg.list){
+#   l <- list()
+#   l["min"] <- arg.list["min"]
+#   l["q1"] <- arg.list["q1"]
+#   l["median"] <- arg.list["median"]
+#   l["q3"] <- arg.list["q3"]
+#   l["max"] <- arg.list["max"]
+#   return(l)
+# }
+
+# ypd <- imp.stats(func(ypd))
+# ybs <- imp.stats(func(ybs))
+# yrp <- imp.stats(func(yrp))
+# ype <- imp.stats(func(ype))
+# ypm <- imp.stats(func(ypm))
+# data.frame(matrix(ypd))
+#boxplot(,data=df, main="Strains in different media", 
+ #       xlab="Media", ylab="Expression Level in log2")
+
+# st_t <- as.table(strain_summary[["seg_01B"]])
+# a <- table(st_t)
+# names(a)
+
 ```
 
 
