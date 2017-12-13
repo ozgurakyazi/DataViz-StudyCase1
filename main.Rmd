@@ -15,11 +15,17 @@ options(warn=-1)
 
 ## 1.2 Load the Data
 ```{r}
-marker_dt <- as.data.table( read.delim("marker.txt"))
-growth_dt <- as.data.table( read.delim("growth.txt"))
-gene_dt <- as.data.table( read.delim("gene.txt"))
-genotype_dt <- as.data.table( read.delim("genotype.txt"))
-expression_dt <- as.data.table( read.delim("expression.txt"))
+marker <- read.delim("marker.txt")
+growth <- read.delim("growth.txt")
+gene <- read.delim("gene.txt")
+genotype <- read.delim("genotype.txt")
+exp.ression <- read.delim("expression.txt")
+  
+marker_dt <- as.data.table( marker )
+growth_dt <- as.data.table( growth )
+gene_dt <- as.data.table( gene )
+genotype_dt <- as.data.table( genotype )
+expression_dt <- as.data.table( exp.ression )
 ```
 
 # 2. Tidy The Data
@@ -79,15 +85,15 @@ str(summary(med_summary))
 #med_summary
 
 # stats <- list()
-# for(iter in a){
+# for(iter in 1:a){
 # 
-#   po <- as.matrix(iter)
-#   po
-#   vals <- length(po[, 3])
+#   it <- as.matrix(iter)
+#   it
+#   vals <- length(it[, 3])
 # 
 #   for(val in vals){
 #     val
-#     c <- po[val, 3]
+#     c <- it[val, 3]
 #     d <- strsplit(c, ":")[[1]]
 #     stats[[d[1]]] <- as.double(d[2])
 #   }
@@ -152,4 +158,18 @@ ypm
 
 ```
 
+## The Difference in Lab & Wild genes for a given Strain
+```{r}
+chromo <- "chr06"
+mygeno <- genotype[, round(mean(which(marker$chrom==chromo)))]
+names(mygeno) <- genotype$strain
+
+attach(growth)
+par(mfrow=c(1,5))
+plot(growth$YPD ~ mygeno[strain], data=growth, main=chromo)
+plot(growth$YPD_BPS ~ mygeno[strain], data=growth, main=chromo)
+plot(growth$YPD_Rapa ~ mygeno[strain], data=growth, main=chromo)
+plot(growth$YPE ~ mygeno[strain], data=growth, main=chromo)
+plot(growth$YPMalt ~ mygeno[strain], data=growth, main=chromo)
+```
 
