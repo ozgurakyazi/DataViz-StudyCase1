@@ -158,18 +158,18 @@ ypm
 
 ```
 
-## The Difference in Lab & Wild genes for a given Strain
+## The Difference in Lab & Wild genes for a given chromosome...
 ```{r}
-chromo <- "chr06"
-mygeno <- genotype[, round(mean(which(marker$chrom==chromo)))]
+given_chrom <- "chr06" ## The given chromosome...
+mygeno <- genotype[, round(mean(which(marker$chrom==given_chrom)))]
 names(mygeno) <- genotype$strain
 
-attach(growth)
+#attach(growth)
 par(mfrow=c(1,5))
-plot(growth$YPD ~ mygeno[strain], data=growth, main=chromo)
-plot(growth$YPD_BPS ~ mygeno[strain], data=growth, main=chromo)
-plot(growth$YPD_Rapa ~ mygeno[strain], data=growth, main=chromo)
-plot(growth$YPE ~ mygeno[strain], data=growth, main=chromo)
-plot(growth$YPMalt ~ mygeno[strain], data=growth, main=chromo)
+plot(growth$YPD ~ mygeno[strain], data=growth, main=given_chrom)
+plot(growth$YPD_BPS ~ mygeno[strain], data=growth, main=given_chrom)
+plot(growth$YPD_Rapa ~ mygeno[strain], data=growth, main=given_chrom)
+plot(growth$YPE ~ mygeno[strain], data=growth, main=given_chrom)
+plot(growth$YPMalt ~ mygeno[strain], data=growth, main=given_chrom)
 ```
 
