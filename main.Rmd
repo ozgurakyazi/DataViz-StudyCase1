@@ -33,7 +33,8 @@ exp_melted <- melt(expression_dt,
 exp_melted[,Medium := Strain]
 exp_melted[,Medium:=gsub(pattern = "\\..*$",replacement = "",x=Medium)]
 exp_melted[,Strain:=gsub(pattern = "^.*\\.",replacement = "",x=Strain)]
-setcolorder(exp_melted, c("Strain", "Medium", "Value"))
+exp_melted[, id:= 1:length(Strain)]
+setcolorder(exp_melted, c("id","Strain", "Medium", "Value"))
 head(exp_melted)
 ```
 
