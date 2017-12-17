@@ -158,6 +158,21 @@ ypm
 
 ```
 
+## The Difference in Lab & Wild counts for a given marker and All 
+```{r}
+given_marker <- "mrk_3385"
+mygeno <-  subset( genotype_melted, Marker ==given_marker)
+
+genotype_melted[, ]
+ggplot(mygeno, aes(Source)) + geom_histogram(stat="count") + ggtitle("Counts of Lab and Wild Genes for Given Marker")
+
+count_geno <- genotype_melted[, .N, by=.(Marker, Source)]
+
+ggplot(count_geno, aes(Source, N)) + geom_violin() +ggtitle("Distibution of Lab And Wild Genes For All Markers") + scale_y_continuous("Counts")
+
+```
+
+
 ## The Difference in Lab & Wild marker counts for a given chromosome
 ```{r}
 given_chrom <- "chr05" ## The given chromosome... in chr05 the difference between wild and lab genes are high compared to other chromosomes.
@@ -173,7 +188,13 @@ ggplot(mygeno, aes(Source)) + geom_histogram(stat="count")
 #plot(growth$YPD_Rapa ~ mygeno[strain], data=growth, main=given_chrom)
 #plot(growth$YPE ~ mygeno[strain], data=growth, main=given_chrom)
 #plot(growth$YPMalt ~ mygeno[strain], data=growth, main=given_chrom)
-
 #ggplot(growth_dt, aes())
+```
+
+
+## Expression values depending on the medium
+```{r}
+ggplot(exp_melted, aes(Medium,Value) ) + geom_violin()
+
 ```
 
