@@ -158,18 +158,22 @@ ypm
 
 ```
 
-## The Difference in Lab & Wild genes for a given chromosome...
+## The Difference in Lab & Wild gene counts for a given chromosome
 ```{r}
-given_chrom <- "chr06" ## The given chromosome...
-mygeno <- genotype[, round(mean(which(marker$chrom==given_chrom)))]
-names(mygeno) <- genotype$strain
+given_chrom <- "seg_01B" ## The given chromosome...
+sel_markers <- data.frame(Marker = marker_dt[chrom== given_chrom,]$id)
+mygeno <- as.data.table(merge(genotype_melted, sel_markers,by= "Marker" )) ## merge, left join, on markers
+ggplot(mygeno, aes(Source)) + geom_histogram(aes(as.factor(mygeno$Source))) + facet_wrap(mygeno$Marker)
+#names(mygeno) <- genotype$strain
 
 #attach(growth)
 par(mfrow=c(1,5))
-plot(growth$YPD ~ mygeno[strain], data=growth, main=given_chrom)
+plot(growth$YPD ~ mygeno$strain, data=growth, main=given_chrom)
 plot(growth$YPD_BPS ~ mygeno[strain], data=growth, main=given_chrom)
 plot(growth$YPD_Rapa ~ mygeno[strain], data=growth, main=given_chrom)
 plot(growth$YPE ~ mygeno[strain], data=growth, main=given_chrom)
 plot(growth$YPMalt ~ mygeno[strain], data=growth, main=given_chrom)
+
+ggplot(growth_dt, aes())
 ```
 
