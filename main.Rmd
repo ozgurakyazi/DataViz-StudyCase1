@@ -51,4 +51,11 @@ genotype_melted <- melt(genotype_dt,
 head(genotype_melted)
 ```
 
+## Growth Differences in Different Media
+```{r}
+growth_melted <- melt(growth_dt, id.vars = "strain", variable.name = "medium", value.name = "growth")
+
+ggplot(growth_melted, aes(medium, growth)) + geom_violin(na.rm = T)
+
+```
 
