@@ -1,0 +1,113 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+# Initializations
+## 1.1 Required Libraries
+```{r}
+library(ggplot2)
+library(data.table)
+options(warn=-1)
+```
+
+
+## 1.2 Load the Data
+```{r}
+marker <- read.delim("marker.txt")
+growth <- read.delim("growth.txt")
+#gene <- read.delim("gene.txt")
+genotype <- read.delim("genotype.txt")
+#expression <- read.delim("expression.txt")
+  
+setDT( marker )
+setDT(growth )
+#setDT(gene )
+setDT(genotype )
+#setDT(expression )
+```
+
+## Calculating mean growth with each genotype for each marker
+```{r}
+combinedMean <- merge(growth[, .('growth' = rowMeans(.SD,na.rm=TRUE)), by = strain], genotype)
+combinedYPD      <- merge(growth[,c('strain','YPD')], genotype)
+combinedYPD_BPS  <- merge(growth[,c('strain','YPD_BPS')], genotype)
+combinedYPD_Rapa <- merge(growth[,c('strain','YPD_Rapa')], genotype)
+combinedYPE      <- merge(growth[,c('strain','YPE')], genotype)
+combinedYPMalt   <- merge(growth[,c('strain','YPMalt')], genotype)
+
+
+
+
+calcGrowths <- function(combined) {
+  colnames(combined)[2] <- "growth"
+  markers <- vector()
+  LS.growth <- vector()
+  WI.growth <- vector()
+
+  for(i in 1:1000) {
+    markername = toString(marker[i,id])
+    LS <- combined[get(markername)=='Lab strain',mean(growth,na.rm=TRUE),]
+    WI <- combined[get(markername)=='Wild isolate',mean(growth,na.rm=TRUE),]
+    markers <- c(markers, markername)
+    LS.growth <- c(LS.growth, LS)
+    WI.growth <- c(WI.growth, WI)
+  }
+
+  meanGrowths = data.frame(markers, LS.growth, WI.growth)
+  setDT(meanGrowths)
+  meanGrowths <- cbind(meanGrowths,meanGrowths[,3]-meanGrowths[,2])
+  colnames(meanGrowths)[4] <- "growthDiff"
+  meanGrowths
+}
+```
+
+#Graphs for all mediums
+```{r}
+meanGrowths = calcGrowths(combinedMean)
+boxplot(meanGrowths[,2:3])
+plot(meanGrowths$growthDiff, type="o")
+```
+
+
+#Graphs for all YPD
+```{r}
+meanGrowths = calcGrowths(combinedYPD)
+boxplot(meanGrowths[,2:3])
+plot(meanGrowths$growthDiff, type="o")
+```
+
+
+#Graphs for YPD_BPS
+```{r}
+meanGrowths = calcGrowths(combinedYPD_BPS)
+boxplot(meanGrowths[,2:3])
+plot(meanGrowths$growthDiff, type="o")
+```
+
+
+#Graphs for YPD_Rapa
+```{r}
+meanGrowths = calcGrowths(combinedYPD_Rapa)
+boxplot(meanGrowths[,2:3])
+plot(meanGrowths$growthDiff, type="o")
+```
+
+
+#Graphs for YPE
+```{r}
+meanGrowths = calcGrowths(combinedYPE)
+boxplot(meanGrowths[,2:3])
+plot(meanGrowths$growthDiff, type="o")
+```
+
+#Graphs for YPMalt
+```{r}
+meanGrowths = calcGrowths(combinedYPMalt)
+boxplot(meanGrowths[,2:3])
+plot(meanGrowths$growthDiff, type="o")
+```
+
+
+
