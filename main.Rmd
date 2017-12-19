@@ -63,9 +63,9 @@ ggplot(growth_melted, aes(medium, growth)) + geom_violin(na.rm = T)
 ## Plot Describing Expression Vs. Growth for Each Strain
 ```{r}
 exp_grouped<- exp_melted[, mean := mean(Value), by=.(Medium, Strain)]
-plot_data <- merge(exp_grouped,growth_melted, by.x = c("Medium", "Strain"), by.y =c("medium","strain") )
+growth_vs_exp <- merge(exp_grouped,growth_melted, by.x = c("Medium", "Strain"), by.y =c("medium","strain") )
 
-ggplot(plot_data, aes(V1, growth)) + geom_point() + facet_wrap(~Medium)
+ggplot(growth_vs_exp, aes(mean, growth)) + geom_point() + facet_wrap(~Medium)
 
 ```
 
