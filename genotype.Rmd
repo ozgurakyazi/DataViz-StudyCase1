@@ -63,51 +63,53 @@ calcGrowths <- function(combined) {
 }
 ```
 
-#Graphs for all mediums
+
+
+##Growth differences for all markers w.r.t mediums
 ```{r}
+
+m_grth_all <- calcGrowths(combinedMean)
+m_grth_ypd <- calcGrowths(combinedYPD)
+m_grth_ypd_bps <- calcGrowths(combinedYPD_BPS)
+m_grth_ypd_rapa <- calcGrowths(combinedYPD_Rapa)
+m_grth_ype <- calcGrowths(combinedYPE)
+m_grth_yp_malt <- calcGrowths(combinedYPMalt)
+
 meanGrowths = calcGrowths(combinedMean)
-boxplot(meanGrowths[,2:3])
-plot(meanGrowths$growthDiff, type="o")
-```
+par(mfrow=c(1,1))
+boxplot(meanGrowths[,2:3], main="Gene Growth Comparison for All Mediums")
 
-
-#Graphs for all YPD
-```{r}
 meanGrowths = calcGrowths(combinedYPD)
-boxplot(meanGrowths[,2:3])
-plot(meanGrowths$growthDiff, type="o")
-```
+par(mfrow=c(1,1))
+boxplot(meanGrowths[,2:3], main="Gene Growth Comparison for YPD")
 
-
-#Graphs for YPD_BPS
-```{r}
 meanGrowths = calcGrowths(combinedYPD_BPS)
-boxplot(meanGrowths[,2:3])
-plot(meanGrowths$growthDiff, type="o")
-```
+par(mfrow=c(1,1))
+boxplot(meanGrowths[,2:3], main="Gene Growth Comparison for YPD_BPS")
 
-
-#Graphs for YPD_Rapa
-```{r}
 meanGrowths = calcGrowths(combinedYPD_Rapa)
-boxplot(meanGrowths[,2:3])
-plot(meanGrowths$growthDiff, type="o")
-```
+par(mfrow=c(1,1))
+boxplot(meanGrowths[,2:3], main="Gene Growth Comparison for YPD_Rapa")
 
-
-#Graphs for YPE
-```{r}
 meanGrowths = calcGrowths(combinedYPE)
-boxplot(meanGrowths[,2:3])
-plot(meanGrowths$growthDiff, type="o")
-```
+par(mfrow=c(1,1))
+boxplot(meanGrowths[,2:3], main="Gene Growth Comparison for YPE")
 
-#Graphs for YPMalt
-```{r}
 meanGrowths = calcGrowths(combinedYPMalt)
-boxplot(meanGrowths[,2:3])
-plot(meanGrowths$growthDiff, type="o")
+par(mfrow=c(1,1))
+boxplot(meanGrowths[,2:3], main="Gene Growth Comparison for YPMalt")
+
+par(mfrow=c(1,1))
+plot(m_grth_all$growthDiff, type="o", main=" Growth Diff All Mediums", xlab= "marker", ylab="LS< 0 > WI")
+par(mfrow=c(1,1))
+plot(m_grth_ypd$growthDiff, type="o", main=" Growth Diff YPD", xlab= "marker", ylab="LS< 0 > WI")
+par(mfrow=c(1,1))
+plot(m_grth_ypd_bps$growthDiff, type="o", main=" Growth Diff YPD_BPS", xlab= "marker", ylab="LS< 0 > WI")
+par(mfrow=c(1,1))
+plot(m_grth_ypd_rapa$growthDiff, type="o", main=" Growth Diff YPD_Rapa", xlab= "marker", ylab="LS< 0 > WI")
+par(mfrow=c(1,1))
+plot(m_grth_ype$growthDiff, type="o", main=" Growth Diff YPE", xlab= "marker", ylab="LS< 0 > WI")
+par(mfrow=c(1,1))
+plot(m_grth_yp_malt$growthDiff, type="o", main=" Growth Diff YPMalt", xlab= "marker", ylab="LS< 0 > WI")
+
 ```
-
-
-

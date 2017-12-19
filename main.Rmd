@@ -175,7 +175,7 @@ ggplot(count_geno, aes(Source, N)) + geom_violin() +ggtitle("Distibution of Lab 
 
 ## The Difference in Lab & Wild marker counts for a given chromosome
 ```{r}
-given_chrom <- "chr05" ## The given chromosome... in chr05 the difference between wild and lab genes are high compared to other chromosomes.
+given_chrom <- "chr05" ##The given chromosome... in chr05 the difference between wild and lab genes are high compared to other chromosomes.
 sel_markers <- subset(marker_dt ,chrom== given_chrom)# selected markers as data frame to merge
 mygeno <- as.data.table(merge(genotype_melted, sel_markers,by.x= "Marker" , by.y = "id")) ## merge, left join, on column Marker
 ggplot(mygeno, aes(Source)) + geom_histogram(stat="count")
